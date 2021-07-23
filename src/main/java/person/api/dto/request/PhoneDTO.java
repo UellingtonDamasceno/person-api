@@ -21,8 +21,7 @@ import lombok.NoArgsConstructor;
 public class PhoneDTO {
 
     private Long id;
-
-    @NotEmpty
+    
     @Enumerated(value = EnumType.STRING)
     private PhoneType type;
 

@@ -2,12 +2,14 @@ package person.api.controller;
 
 import java.util.List;
 import javax.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -24,14 +26,10 @@ import person.api.services.PersonService;
  */
 @RestController
 @RequestMapping(path = "api/v1/people")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PeopleController {
 
     private PersonService personService;
-
-    @Autowired
-    public PeopleController(PersonService personRepository) {
-        this.personService = personRepository;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -53,5 +51,10 @@ public class PeopleController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) throws PersonNotFoundException {
         personService.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public PersonDTO updateById(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException {
+        return this.personService.updateById(id, personDTO);
     }
 }

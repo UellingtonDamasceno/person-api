@@ -20,9 +20,9 @@ public class PersonService {
 
     @Autowired
     private final PersonRepository personRepository;
-    
+
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
-    
+
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
@@ -39,8 +39,19 @@ public class PersonService {
                 .collect(toList());
     }
 
-    public Person findById(Long id) throws PersonNotFoundException {
-        return personRepository.findById(id)
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        Person person = this.verifyIfExist(id);
+        return this.personMapper.toDTO(person);
+    }
+
+    public void deleteById(Long id) throws PersonNotFoundException {
+        this.verifyIfExist(id);
+        this.personRepository.deleteById(id);
+    }
+
+    private Person verifyIfExist(Long id) throws PersonNotFoundException {
+        return personRepository
+                .findById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
     }
 

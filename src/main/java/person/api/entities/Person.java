@@ -1,5 +1,6 @@
 package person.api.entities;
 
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -38,7 +40,7 @@ public class Person {
     @Column(nullable = false)
     private String lastName;
 
-    private String birthDate;
+    private LocalDate birthDate;
 
     @OneToMany(
             fetch = FetchType.LAZY,
